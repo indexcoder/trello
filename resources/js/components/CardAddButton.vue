@@ -1,5 +1,5 @@
 <template>
-    <button @click="addCard" class="rounded-sm p-2 text-gray-600 cursor-pointer hover:bg-gray-400 hover:text-gray-800 text-sm">
+    <button @click="$emit('click')" class="rounded-sm p-2 text-gray-600 cursor-pointer hover:bg-gray-400 hover:text-gray-800 text-sm">
         Add new Card
     </button>
 </template>
@@ -10,23 +10,24 @@
     export default {
         methods: {
             addCard() {
-                this.$apollo.mutate({
-                    mutation: CardAdd,
-                    variables: {
-                        title: 'Added throud mutation',
-                        listId: 1,
-                        order: 1
-                    },
-                    update(store, { data: { cardAdd }}) {
-                        const data = store.readQuery({
-                            query: BoardQuery,
-                            variables: {id: 1}
-                        });
-
-                        data.board.lists.find(list => (list.id = 1)).cards.push(cardAdd);
-                        store.writeQuery({ query: BoardQuery, data });
-                    }
-                })
+                this.$emit("click");
+                // this.$apollo.mutate({
+                //     mutation: CardAdd,
+                //     variables: {
+                //         title: 'Added throud mutation',
+                //         listId: 1,
+                //         order: 1
+                //     },
+                //     update(store, { data: { cardAdd }}) {
+                //         const data = store.readQuery({
+                //             query: BoardQuery,
+                //             variables: {id: 1}
+                //         });
+                //
+                //         data.board.lists.find(list => (list.id = 1)).cards.push(cardAdd);
+                //         store.writeQuery({ query: BoardQuery, data });
+                //     }
+                // })
 
             }
         }
