@@ -1,7 +1,7 @@
 <template>
     <div class="list bg-gray-300 rounded-sm p-2 mr-2">
         <div class="flex justify-between">
-            <p class="text-gray-800 pl-2 pb-2 font-bold">{{ list.title }}</p>
+            <p class="text-gray-800 pl-2 pb-2 font-bold" v-text="list.title"></p>
         </div>
         <card v-for="card in list.cards" :key="card.id" :card="card"></card>
         <card-editor v-if="editing" @closed="editing=false" :list="list"></card-editor>
