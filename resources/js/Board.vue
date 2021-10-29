@@ -14,7 +14,7 @@
                 <span v-else> {{ board.title }}</span>
             </div>
             <div v-if="board" class="flex flex-1 items-start overflow-x-auto mx-2">
-                <list v-for="list in board.lists" :key="list.id" :list="list"></list>
+                <list v-for="list in board.lists" :key="list.id" :list="list" @cardAdded="updateQueryCache($event)"></list>
             </div>
         </div>
 
@@ -30,7 +30,21 @@
         apollo: {
             board: {
                 query: BoardQuery,
-                variables: { id: 1 }
+                variables: {id: 1}
+            }
+        },
+        methods: {
+            updateQueryCache(event) {
+
+                const data = event.store.readQuery({
+                    query: BoardQuery,
+                    variables: {id: Number(this.board.id)}
+                });
+
+                data.board.lists.find(list => list.id == event.listId).cards.push(event.data);
+
+                event.store.writeQuery({ query: BoardQuery, data });
+
             }
         }
     }

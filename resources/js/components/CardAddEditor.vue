@@ -1,0 +1,47 @@
+<template>
+    <card-editor v-model="title" @closed="closed" @saved="addCard"></card-editor>
+</template>
+
+
+<script>
+    import CardEditor from './CardEditor';
+    import CardAdd from '../graphql/CardAdd.gql';
+
+    export default {
+        components: {CardEditor},
+        props: {list: Object},
+        data() {
+            return {
+                title: null
+            }
+        },
+        mounted() {
+            this.$refs.card.focus();
+        },
+        methods: {
+            addCard() {
+                const self = this;
+
+                this.$apollo.mutate({
+
+                    mutation: CardAdd,
+
+                    variables: {
+                        title: this.title,
+                        listId: this.list.id,
+                        order: this.list.cards.length + 1
+                    },
+
+                    update(store, {data: {cardAdd}}) {
+                        self.$emit("added", {store, data: cardAdd});
+                        self.closed();
+                    }
+                });
+            },
+
+            closed() {
+                this.$emit("closed");
+            }
+        }
+    }
+</script>
