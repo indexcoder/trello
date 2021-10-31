@@ -1,11 +1,11 @@
 <template>
-    <card-editor v-model="title" @closed="closed" @saved="addCard"></card-editor>
+    <card-editor v-model="title" @closed="closed" @saved="addCard" label="Add Card"></card-editor>
 </template>
-
 
 <script>
     import CardEditor from './CardEditor';
     import CardAdd from '../graphql/CardAdd.gql';
+    import {EVENT_CARD_ADDED} from '../Constants';
 
     export default {
         components: {CardEditor},
@@ -23,7 +23,6 @@
                 const self = this;
 
                 this.$apollo.mutate({
-
                     mutation: CardAdd,
 
                     variables: {
@@ -33,7 +32,7 @@
                     },
 
                     update(store, {data: {cardAdd}}) {
-                        self.$emit("added", {store, data: cardAdd});
+                        self.$emit("added", {store, data: cardAdd, type: EVENT_CARD_ADDED});
                         self.closed();
                     }
                 });

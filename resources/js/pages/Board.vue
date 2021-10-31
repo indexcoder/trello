@@ -14,7 +14,13 @@
                 <span v-else> {{ board.title }}</span>
             </div>
             <div v-if="board" class="flex flex-1 items-start overflow-x-auto mx-2">
-                <list v-for="list in board.lists" :key="list.id" :list="list" @cardAdded="updateQueryCache($event)"></list>
+                <list v-for="list in board.lists"
+                      :key="list.id"
+                      :list="list"
+                      @card-deleted="updateQueryCache($event)"
+                      @card-updated="updateQueryCache($event)"
+                      @card-added="updateQueryCache($event)">
+                </list>
             </div>
         </div>
 
@@ -22,8 +28,9 @@
 </template>
 
 <script>
-    import List from './components/List';
-    import BoardQuery from './graphql/BoardWithListsAndCards.gql';
+    import List from '../components/List';
+    import BoardQuery from '../graphql/BoardWithListsAndCards.gql';
+    import {EVENT_CARD_ADDED, EVENT_CARD_DELETED, EVENT_CARD_UPDATE} from "../Constants";
 
     export default {
         components: {List},
@@ -41,10 +48,21 @@
                     variables: {id: Number(this.board.id)}
                 });
 
-                data.board.lists.find(list => list.id == event.listId).cards.push(event.data);
+                const listById = () => data.board.lists.find(list => list.id === event.listId);
+                
+                switch (event.type) {
+                    case EVENT_CARD_ADDED:
+                        listById().cards.push(event.data);
+                        break;
+                    case EVENT_CARD_DELETED:
+                        listById().cards = listById().cards.filter(card => card.id !== event.data.id);
+                        break;
+                    case EVENT_CARD_UPDATE:
+                        listById().cards.filter(card => card.id === event.data.id).title = event.data.title;
+                        break;
+                }
 
                 event.store.writeQuery({ query: BoardQuery, data });
-
             }
         }
     }
