@@ -3,6 +3,7 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex';
     import CardEditor from './CardEditor';
     import CardAdd from '../graphql/CardAdd.gql';
     import {EVENT_CARD_ADDED} from '../Constants';
@@ -15,6 +16,9 @@
                 title: null
             }
         },
+        computed: mapState({
+            userId: state => state.user.id
+        }),
         mounted() {
             this.$refs.card.focus();
         },
@@ -28,7 +32,8 @@
                     variables: {
                         title: this.title,
                         listId: this.list.id,
-                        order: this.list.cards.length + 1
+                        order: this.list.cards.length + 1,
+                        ownerId: this.userId
                     },
 
                     update(store, {data: {cardAdd}}) {

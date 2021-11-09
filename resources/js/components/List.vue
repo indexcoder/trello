@@ -16,12 +16,13 @@
                      :list="list">
         </card-add-editor>
 
-        <card-add-button v-else @click="editing=true"></card-add-button>
+        <card-add-button v-if="!editing && canAddCard" @click="editing=true"></card-add-button>
     </div>
 </template>
 
 <script>
     import Card from './Card';
+    import {mapState} from 'vuex';
     import CardAddButton from './CardAddButton';
     import CardAddEditor from './CardAddEditor';
 
@@ -35,11 +36,11 @@
                 editing: false
             }
         },
-        methods: {
-            cardAdded(event) {
-                alert(event);
+        computed: mapState({
+            canAddCard(state) {
+                return this.list.board.owner.id === state.user.id;
             }
-        }
+        })
     }
 </script>
 

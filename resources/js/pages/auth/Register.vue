@@ -1,7 +1,7 @@
 <template>
     <div class="bg-white sm:bg-gray-100 h-full flex justify-center">
         <div class="w-96 mt-2 sm:mt-10 flex flex-col items-center">
-            <h1 class="mb-4">Laravello</h1>
+            <h1 class="mb-4"><router-link :to="{name: 'board'}">Laravello</router-link></h1>
             <div class="w-full sm:shadow-xl sm:bg-white sm:py-8 sm:px-12">
                 <p class="text-gray-600 font-bold mb-8 text-center">Sign up to your account</p>
 
@@ -42,7 +42,7 @@
                 this.errors = [];
 
                 try {
-                    await this.$apollo.mutate({
+                    const  response = await this.$apollo.mutate({
                         mutation: Register,
                         variables: {
                             email: this.email,
@@ -50,8 +50,15 @@
                             name: this.name
                         }
                     });
-                    this.$store.dispatch("setLoggedIn", true);
-                    this.$router.push({name: "board"});
+
+                    const user = response.data?.register;
+
+                    if (user) {
+                        this.$store.dispatch("setLoggedIn", true);
+                        this.$store.commit("setUser", user);
+                        this.$router.push({name: "board"});
+                    }
+
                 } catch(err) {
                     this.errors = gqlErrors(err);
                 }
