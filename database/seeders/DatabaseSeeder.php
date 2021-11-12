@@ -12,8 +12,8 @@ class DatabaseSeeder extends Seeder {
     public function run() {
         User::factory()->count(10)->create();
 
-        $board1 = Board::create(['title' => 'Grocieries', 'color' => 'teal', 'owner_id' => 1]);
-        $board2 = Board::create(['title' => 'Work', 'color' => 'orange', 'owner_id' => 2]);
+        $board1 = Board::create(['title' => 'Grocieries', 'color' => 'red', 'owner_id' => 1]);
+        $board2 = Board::create(['title' => 'Work', 'color' => 'yellow', 'owner_id' => 2]);
         $board3 = Board::create(['title' => 'Hobby', 'color' => 'indigo', 'owner_id' => 1]);
 
         collect([$board1, $board2, $board3])->each(function (Board $board) {

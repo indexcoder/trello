@@ -14,6 +14,7 @@ module.exports = {
     },
     variants: {
         extend: {},
+        opacyti: ['group-hover', 'hover']
     },
     plugins: [],
 };

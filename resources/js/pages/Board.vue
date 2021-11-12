@@ -2,7 +2,16 @@
     <div class="h-full flex flex-col items-stretch" :class="bgColor">
         <div class="header text-white flex justify-between items-center mb-2">
             <div class="ml-2 w-1/3">
-                <button @click="$router.push({name: 'board'})" class="bg-purple-500 rounded-sm px-2 py-1 text-sm font-bold outline-none whitespace-no-wrap focus:outline-none hover:opacity-75">Home</button>
+                <button @click="showBoards = !showBoards" class="bg-purple-500 rounded-sm px-2 py-1 text-sm font-bold outline-none whitespace-no-wrap focus:outline-none hover:opacity-75">Boards</button>
+                <div v-if="showBoards" class="absolute bg-gray-200 rounded-sm mt-2 text-sm text-gray-600 border border-gray-200 shadow w-64 overflow-y-auto z-10 p-2">
+                    <div class="text-gray-600 text-xs font-semibold mb-2 ml-2">BOARDS</div>
+                    <div class="m-2 bg-indigo-100 rounded-sm opacity-100 hover:opacity-75 text-gray-700 font-bold cursor-pointer flex">
+                        <div class="bg-indigo-200 w-10 rounded-sm rounded-r-none">
+
+                        </div>
+                        <div class="p-2">The board name!</div>
+                    </div>
+                </div>
             </div>
             <div>
                 <a href="/" class="text-lg opacity-50 hover:opacity-75">Laravello</a>
@@ -24,7 +33,6 @@
                 </div>
             </div>
         </div>
-
         <div class="h-full flex flex-1 flex-col items-stretch">
             <div class="mx-2 mb-2 text-white font-bold text-lg">
                 <div v-if="$apollo.queries.board.loading" class="flex justify-center items-center">
@@ -42,7 +50,6 @@
                 </list>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -56,6 +63,12 @@
 
     export default {
         components: {List},
+
+        data() {
+            return {
+                showBoards: false
+            }
+        },
 
         computed: {
             bgColor() {

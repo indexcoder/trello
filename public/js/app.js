@@ -5984,6 +5984,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5993,6 +6000,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     List: _components_List__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  data: function data() {
+    return {
+      showBoards: false
+    };
   },
   computed: _objectSpread({
     bgColor: function bgColor() {
@@ -13790,15 +13802,37 @@ var render = function() {
                   "bg-purple-500 rounded-sm px-2 py-1 text-sm font-bold outline-none whitespace-no-wrap focus:outline-none hover:opacity-75",
                 on: {
                   click: function($event) {
-                    return _vm.$router.push({ name: "board" })
+                    _vm.showBoards = !_vm.showBoards
                   }
                 }
               },
-              [_vm._v("Home")]
-            )
+              [_vm._v("Boards")]
+            ),
+            _vm._v(" "),
+            _vm.showBoards
+              ? _c(
+                  "div",
+                  {
+                    staticClass:
+                      "absolute bg-gray-200 rounded-sm mt-2 text-sm text-gray-600 border border-gray-200 shadow w-64 overflow-y-auto z-10 p-2"
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "text-gray-600 text-xs font-semibold mb-2 ml-2"
+                      },
+                      [_vm._v("BOARDS")]
+                    ),
+                    _vm._v(" "),
+                    _vm._m(0)
+                  ]
+                )
+              : _vm._e()
           ]),
           _vm._v(" "),
-          _vm._m(0),
+          _vm._m(1),
           _vm._v(" "),
           _c("div", { staticClass: "mr-2 w-1/3 flex justify-end" }, [
             _vm.isLoggedIn
@@ -13895,6 +13929,25 @@ var render = function() {
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "m-2 bg-indigo-100 rounded-sm opacity-100 hover:opacity-75 text-gray-700 font-bold cursor-pointer flex"
+      },
+      [
+        _c("div", {
+          staticClass: "bg-indigo-200 w-10 rounded-sm rounded-r-none"
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "p-2" }, [_vm._v("The board name!")])
+      ]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
